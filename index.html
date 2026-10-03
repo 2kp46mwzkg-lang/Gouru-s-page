@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0d0b0a">
+<meta name="color-scheme" content="dark">
+<title>Père Absalon · L'Aube Blanche</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230d0b0a' stroke='%23c9a45c' stroke-width='3'/%3E%3Cpath d='M11 40h42' stroke='%23c9a45c' stroke-width='3'/%3E%3Cpath d='M21 40a11 11 0 0 1 22 0z' fill='%23f4efe4'/%3E%3Ccircle cx='32' cy='35.5' r='3' fill='%230d0b0a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0b0a; --surface:#15120f; --surface-2:#1c1814; --line:#2b241e;
+  --text:#e8e0d1; --muted:#9a8e7e; --faint:#665c51;
+  --gold:#c9a45c; --gold-dim:#7d6638; --blood:#9b2020; --dawn:#f4efe4;
+  --serif:"EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+  --display:"Cinzel", "Trajan Pro", Georgia, serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--serif);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+input{font:inherit}
+svg{display:block}
+
+/* ---------- Barre du haut ---------- */
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:10px 16px;padding-top:max(10px, env(safe-area-inset-top));background:rgba(13,11,10,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--gold)}
+.wordmark{font-family:var(--display);font-weight:700;letter-spacing:.22em;font-size:14px;text-transform:uppercase}
+.spacer{flex:1}
+.iconbtn{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);color:var(--muted)}
+.badge{position:absolute;top:1px;right:1px;min-width:16px;height:16px;border-radius:8px;background:var(--blood);color:#fff;font:600 10px/16px system-ui,sans-serif;text-align:center;padding:0 4px}
+
+.ticker{overflow:hidden;background:#090706;border-bottom:1px solid var(--line)}
+.ticker-track{display:flex;width:max-content;animation:tick 48s linear infinite}
+.ticker-track span{font-family:var(--display);font-size:10.5px;letter-spacing:.32em;color:var(--gold-dim);padding:6px 0;white-space:nowrap}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- Profil ---------- */
+.page{max-width:680px;margin:0 auto}
+.profile{background:var(--surface);border-bottom:1px solid var(--line)}
+.cover{aspect-ratio:16/7;overflow:hidden;background:#000}
+.cover svg{width:100%;height:100%}
+@media (max-width:520px){.cover{aspect-ratio:16/9}}
+.profile-main{padding:0 16px 14px;text-align:center}
+.profile-avatar{display:flex;justify-content:center;margin-top:-60px;position:relative}
+.profile-avatar .av{border:4px solid var(--surface);box-shadow:0 0 0 1px var(--gold-dim),0 10px 30px rgba(0,0,0,.6)}
+.memorial{margin-top:10px;font-family:var(--display);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:26px;margin:2px 0;letter-spacing:.04em;display:inline-flex;align-items:center;gap:8px}
+.sub{color:var(--muted);font-style:italic}
+.counts{margin-top:6px;color:var(--muted);font-size:15px}
+.counts b{color:var(--text);font-weight:600}
+.profile-actions{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface-2);padding:8px 14px;border-radius:8px;font-family:var(--display);font-size:12px;letter-spacing:.08em;color:var(--text)}
+.btn.primary{background:linear-gradient(180deg,#d6b46c,#a8853f);color:#1a1209;border-color:#a8853f;font-weight:700}
+.tabs{display:flex;overflow-x:auto;border-top:1px solid var(--line);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;padding:13px 10px;font-family:var(--display);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ---------- Vues & cartes ---------- */
+.view{padding:12px 10px 40px}
+.view[hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:0 0 12px}
+
+.av{border-radius:50%;display:grid;place-items:center;flex:none;overflow:hidden}
+.av.guru{background:radial-gradient(circle at 50% 38%,#3a2c1c,#110d0a 75%);border:1px solid var(--gold-dim)}
+.av.member{font-family:var(--display);font-weight:700;color:var(--text);border:1px solid var(--line)}
+.av.ghost{background:var(--surface-2);color:var(--faint);border:1px solid var(--line)}
+.av.sealed{background:repeating-linear-gradient(45deg,#1a1512 0 6px,#120e0b 6px 12px);border:1px solid var(--text)}
+
+.deces{display:flex;gap:14px;align-items:center;background:#070605;border:1px solid var(--gold-dim);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.deces p{margin:0}
+.deces .deces-sign{color:var(--muted);font-style:italic;font-size:14px;margin-top:4px}
+
+.intro{padding:16px}
+.intro h2{font-family:var(--display);font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px;color:var(--gold)}
+.motto{font-style:italic;margin:0 0 10px;font-size:18px}
+.intro ul{list-style:none;padding:0;margin:0}
+.intro li{display:flex;gap:10px;align-items:baseline;padding:4px 0;color:var(--text)}
+.intro li .ic{color:var(--gold);width:1.2em;text-align:center;flex:none}
+
+.composer{display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer}
+.fake-input{flex:1;border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:9px 16px;color:var(--faint);font-style:italic}
+
+/* ---------- Publications ---------- */
+.pinned-label{display:flex;align-items:center;gap:6px;padding:10px 14px 0;color:var(--gold);font-family:var(--display);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+.post-head{display:flex;gap:10px;align-items:center;padding:12px 14px 6px}
+.who{flex:1;min-width:0}
+.author{font-weight:600;display:flex;align-items:center;gap:6px;font-size:16.5px}
+.meta{color:var(--muted);font-size:13.5px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.dots{color:var(--muted);width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
+.post.veille{background:linear-gradient(180deg,#1a1510,var(--surface) 55%);border-color:#3a2f22}
+.veille-wrap{padding:0 14px 2px}
+.veille-tag{display:inline-flex;gap:6px;align-items:center;font-family:var(--display);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);border-radius:999px;padding:3px 10px;background:rgba(201,164,92,.06)}
+.post-title{margin:6px 14px 0;font-family:var(--display);font-size:12.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+.post-body{padding:6px 14px 2px;font-size:17.5px}
+.post-body p{margin:0 0 .7em}
+.post-body p:last-child{margin-bottom:.3em}
+.post-body p.first::first-letter{font-family:var(--display);font-weight:700;float:left;font-size:3.1em;line-height:.82;padding:.06em .1em 0 0;color:var(--gold)}
+.post-body s{color:var(--muted);text-decoration-color:var(--blood);text-decoration-thickness:2px}
+.post-body.clamped{max-height:13.5em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent)}
+.more{margin:0 14px 6px;color:var(--gold);font-size:15.5px;font-weight:600;padding:2px 0}
+.photo{margin:8px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#000;aspect-ratio:5/3;overflow:hidden}
+.photo svg{width:100%;height:100%}
+.stats{display:flex;justify-content:space-between;gap:10px;padding:10px 14px 8px;color:var(--muted);font-size:14px}
+.amen-count{display:flex;align-items:center;gap:7px}
+.amen-dot{width:17px;height:17px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#ffe7a8,#c98b2a);box-shadow:0 0 8px rgba(255,190,90,.45)}
+.dissent{padding:0 14px 8px;margin-top:-4px;color:#c27a6b;font-size:13.5px;font-style:italic}
+.actions{display:flex;border-top:1px solid var(--line);margin:0 8px}
+.actions button{flex:1;padding:10px 4px;color:var(--muted);font-size:15px;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:8px}
+.actions button:active{background:var(--surface-2)}
+.actions button.on{color:var(--gold)}
+
+.event{display:flex;gap:12px;margin:8px 14px 6px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.event-date{flex:none;width:58px;border-radius:8px;background:#0a0807;border:1px solid var(--gold-dim);text-align:center;padding:6px 0;font-family:var(--display)}
+.event-date span{display:block;font-size:22px;color:var(--gold);line-height:1.1}
+.event-date small{font-size:9px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.event-title{font-family:var(--display);font-weight:700;letter-spacing:.05em}
+.event-meta{color:var(--muted);font-size:14px;line-height:1.35}
+.event-row{display:flex;justify-content:flex-end;margin:0 14px 8px}
+
+/* ---------- Préceptes ---------- */
+.preceptes{padding:22px 18px 10px}
+.preceptes .seal{display:flex;justify-content:center}
+.preceptes h2{font-family:var(--display);text-align:center;color:var(--gold);letter-spacing:.12em;font-size:18px;margin:12px 0 4px}
+.preceptes .lead{text-align:center;color:var(--muted);font-style:italic;margin:0 0 16px}
+.preceptes ol{list-style:none;padding:0;margin:0}
+.preceptes li{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--line);font-size:18px}
+.preceptes .num{font-family:var(--display);color:var(--gold);width:2.4em;flex:none;text-align:right;font-size:15px;padding-top:2px}
+.preceptes .foot{text-align:center;color:var(--faint);font-style:italic;font-size:14px;margin:14px 0 6px}
+
+/* ---------- Troupeau ---------- */
+.troupeau-head{padding:16px}
+.troupeau-head h2{font-family:var(--display);font-size:16px;letter-spacing:.14em;text-transform:uppercase;margin:0;color:var(--gold)}
+.troupeau-head p{margin:4px 0 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (min-width:560px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.member{padding:14px 10px 12px;text-align:center;margin:0;cursor:pointer}
+.member .av{margin:0 auto 8px}
+.m-name{font-weight:600;line-height:1.25}
+.m-role{color:var(--muted);font-size:14px;line-height:1.3;min-height:2.6em;margin-top:2px}
+.chip{display:inline-block;margin-top:8px;font-family:var(--display);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.chip.ancien{color:var(--gold);border-color:var(--gold-dim)}
+.chip.penitence{color:#e08a7a;border-color:#5a2420}
+.chip.surveille{color:#d6a56c;border-color:#4d3a22}
+.chip.scelle{color:var(--dawn);border-color:var(--dawn)}
+.redact{display:inline-flex;gap:2px;vertical-align:-2px}
+.redact i{display:inline-block;width:.5em;height:1em;background:var(--text)}
+.others{text-align:center;color:var(--muted);font-style:italic;margin:14px 0 0}
+
+/* ---------- Sanctuaire ---------- */
+.sanctuaire{padding:24px 18px 22px;text-align:center}
+.door-wrap{display:flex;justify-content:center}
+.door .leaf{transform-box:fill-box;transition:transform 1.7s cubic-bezier(.6,.05,.3,1)}
+.door .leaf-l{transform-origin:left center}
+.door .leaf-r{transform-origin:right center}
+.door.open .leaf-l,.door.open .leaf-r{transform:scaleX(.06)}
+.door .door-seal{transition:opacity .6s}
+.door.open .door-seal{opacity:0}
+.sanctuaire h2{font-family:var(--display);color:var(--gold);letter-spacing:.16em;text-transform:uppercase;font-size:18px;margin:16px 0 6px}
+.sanctuaire .lead{color:var(--muted);font-style:italic;max-width:28em;margin:0 auto 18px}
+.nom-form{display:flex;gap:8px;max-width:420px;margin:0 auto}
+.nom-form[hidden]{display:none}
+.nom-form input{flex:1;min-width:0;background:#0a0807;border:1px solid var(--gold-dim);border-radius:8px;color:var(--dawn);padding:11px 14px;font-family:var(--display);letter-spacing:.14em;text-transform:uppercase;font-size:16px;outline:none}
+.nom-form input::placeholder{color:var(--faint);text-transform:none;letter-spacing:.02em;font-family:var(--serif);font-style:italic}
+.nom-form input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,164,92,.15)}
+.nom-form .btn{padding:0 16px}
+.verdict{min-height:1.6em;margin:14px 0 0;font-style:italic;color:#d79a8b;font-size:18px}
+.verdict.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.whisper{color:var(--gold);font-style:italic;margin:10px auto 0;max-width:26em;opacity:0;transition:opacity 1.2s}
+.whisper.show{opacity:1}
+.tries{color:var(--faint);font-size:14px;margin:12px 0 0}
+.reveal{text-align:center;padding:26px 18px 30px;border-color:var(--gold-dim);background:radial-gradient(ellipse at top,rgba(244,239,228,.10),transparent 70%),var(--surface)}
+.reveal[hidden]{display:none}
+.reveal-kicker{font-family:var(--display);letter-spacing:.3em;font-size:11px;color:var(--muted);text-transform:uppercase}
+.reveal-name{font-family:var(--display);font-weight:700;font-size:clamp(30px,10vw,52px);letter-spacing:.14em;color:var(--dawn);margin:12px 0 16px;text-shadow:0 0 24px rgba(244,226,180,.45);white-space:nowrap}
+.reveal-name span{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(6px);animation:letter .9s forwards}
+@keyframes letter{to{opacity:1;filter:blur(0);transform:none}}
+.reveal-text{font-style:italic;max-width:30em;margin:0 auto 10px;font-size:18.5px;opacity:0;animation:fade 1.5s forwards}
+.reveal-sign{color:var(--gold);font-family:var(--display);letter-spacing:.1em;font-size:13px;opacity:0;animation:fade 1.5s forwards}
+@keyframes fade{to{opacity:1}}
+
+/* ---------- Divers ---------- */
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 2.2s ease-in-out infinite}
+@keyframes flick{0%,100%{transform:scale(1,1)}35%{transform:scale(.9,1.08) skewX(2deg)}70%{transform:scale(1.05,.95) skewX(-2deg)}}
+.smoke{animation:smoke 4s ease-in-out infinite}
+@keyframes smoke{0%,100%{opacity:.15}50%{opacity:.45}}
+.foot-note{text-align:center;color:var(--faint);font-size:13.5px;font-style:italic;padding:10px 20px 40px;max-width:680px;margin:0 auto}
+.foot-note b{font-family:var(--display);font-style:normal;letter-spacing:.2em;color:var(--gold-dim);font-size:11px;display:block;margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:max(22px,env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;z-index:60;background:#0a0807;border:1px solid var(--gold-dim);color:var(--dawn);padding:11px 18px;border-radius:10px;font-style:italic;max-width:min(92vw,440px);text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.7);transition:opacity .3s,transform .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){
+  .ticker-track,.flame,.smoke{animation:none}
+  .door .leaf{transition:none}
+}
+</style>
+</head>
+<body>
+<noscript><p style="padding:20px;text-align:center">Le Père demande que JavaScript soit activé.</p></noscript>
+<div id="app"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+   RÉGLAGES — à modifier librement
+   ===================================================================== */
+const CONFIG = {
+  secte: "L'Aube Blanche",
+  gourou: "Père Absalon",
+  lieu: "Domaine de la Source",
+  nbEnfants: 312,
+  nomCache: "PEROLINE",       // le nom qui ouvre le Sanctuaire (accents et majuscules ignorés)
+  gourouMort: true,           // false = pas de bandeau de décès ni de « En souvenir de »
+  bandeauDeces: "Le Père Absalon a rejoint la Lumière. Ce compte est désormais scellé : nul n'y publiera plus.",
+  signatureDeces: "— Le Conseil des Anciens",
+  texteRevelation: "Voici le Nom que je n'ai jamais prononcé devant vous. Je devais le révéler à la Grande Veillée ; on ne m'en a pas laissé le temps. Ce que ce Nom signifie, c'est désormais à vous de le découvrir."
+};
+
+/* =====================================================================
+   PUBLICATIONS — dans l'ordre chronologique (la plus ancienne en premier)
+   Le site les affiche de la plus récente à la plus ancienne.
+   veille:true = « Parole de Veille » (publiée à 03:33)
+   ===================================================================== */
+const EPINGLE = {
+  jour: 1, heure: "23:59", amen: 312,
+  corps: [
+    "Mes Enfants,",
+    "Il est un Nom que je n'ai jamais prononcé devant vous. Je ne le prononcerai qu'une fois, à la Grande Veillée, au dernier jour des Cendres.",
+    "D'ici là, je l'écrirai lettre après lettre, aux heures où vous dormez, quand la Lumière me tient éveillé.",
+    "Qui relira mes Paroles de Veille depuis la toute première, en ne s'attachant qu'au commencement de chacune, connaîtra ce Nom avant les autres. Et le Sanctuaire s'ouvrira devant lui.",
+    "Les autres continueront de dormir. C'est bien ainsi."
+  ]
+};
+
+const POSTS = [
+  { jour: 1, heure: "07:00", amen: 312, corps: [
+    "Enfants de l'Aube,",
+    "Aujourd'hui s'ouvre la Saison des Cendres. Quarante jours pour brûler ce qui reste en vous du monde d'avant : ses désirs, ses attaches, ses noms.",
+    "À compter de ce matin :\n— les repas sont pris en silence ;\n— nul ne franchit la grille sans ma bénédiction écrite ;\n— chaque soir, chacun confesse à voix haute, devant le Troupeau, ce qu'il a pensé de travers.",
+    "Ceux qui trouvent ces règles lourdes n'ont pas encore compris qu'elles sont légères, à côté de ce qui attend le monde au-dehors.",
+    "Que l'Aube vous garde."
+  ]},
+  { jour: 3, heure: "03:33", veille: true, amen: 312, corps: [
+    "Pendant que vous dormiez, je suis descendu seul jusqu'à la Source. L'eau était noire et parfaitement immobile, comme un miroir que personne n'aurait encore osé regarder.",
+    "J'y ai vu vos visages, un à un. Certains brillaient. D'autres étaient voilés.",
+    "Je sais désormais lesquels."
+  ]},
+  { jour: 5, heure: "21:12", amen: 311, photo: "cierges", corps: [
+    "La chapelle, hier soir. Trois cent douze cierges : un par Enfant.",
+    "Quand l'un d'eux s'éteint avant l'heure, je sais toujours pourquoi."
+  ]},
+  { jour: 8, heure: "12:40", amen: 309, corps: [
+    "Frère Élias a été surpris hier à écrire une lettre. Une lettre adressée au-dehors, à une femme qu'il appelait encore « maman ».",
+    "Il n'y a pas de mère hors du Domaine. Il n'y a que l'Aube, et moi qui la sers.",
+    "Frère Élias passera sept nuits dans la Cellule du Silence. Vous ne lui adresserez ni parole ni regard. Ce n'est pas une punition : c'est un remède.",
+    "Remerciez-moi pour lui, puisqu'il ne le peut pas encore."
+  ]},
+  { jour: 10, heure: "03:33", veille: true, amen: 312, corps: [
+    "Entendez-vous le silence du Domaine à cette heure ? Ce n'est pas un silence vide. C'est un silence qui écoute.",
+    "Les murs ont des oreilles, parce que je les leur ai données.",
+    "Dormez, mes Enfants. Moi, je veille."
+  ]},
+  { jour: 12, heure: "06:00", amen: 312, titre: "Psaume du lever", corps: [
+    "Béni soit le matin qui nous trouve agenouillés,\nbéni le pain que le Père a rompu pour nous,\nbénie la grille close qui garde la brebis du loup.",
+    "Que nos bouches se taisent et que nos cœurs obéissent,\ncar le monde est une nuit sans fin,\net seule l'Aube est un jour.",
+    "À réciter chaque matin, à genoux, avant toute parole."
+  ]},
+  { jour: 14, heure: "17:45", amen: 310, corps: [
+    "Rappel à ceux qui n'ont pas encore déposé leur Offrande.",
+    "Vos bijoux, vos clés, vos papiers, vos téléphones : tout ce qui vous rattache au monde d'avant doit être remis à la Maison du Père avant la fin de la semaine.",
+    "On me demande parfois ce que deviennent ces objets. Ils deviennent légers. Comme vous.",
+    "La liste de ceux qui n'ont rien donné sera lue ce soir au réfectoire."
+  ]},
+  { jour: 16, heure: "03:33", veille: true, amen: 311, corps: [
+    "Rien ne dort vraiment au Domaine. Ni les chiens, ni les cierges, ni moi.",
+    "Cette nuit encore, une fenêtre était éclairée dans l'aile des Sœurs. Je ne demanderai pas laquelle.",
+    "Celle qui veille sans moi sait que je sais."
+  ]},
+  { jour: 18, heure: "08:20", amen: 312, photo: "champ", corps: [
+    "Le champ de l'Est, ce matin. Ils ont attendu le soleil trois heures sans bouger, sans parler, sans que j'aie eu à le leur demander.",
+    "Voilà ce qu'est un Troupeau."
+  ]},
+  { jour: 21, heure: "03:33", veille: true, amen: 312, corps: [
+    "On me croit endormi quand ma lampe s'éteint. On se trompe.",
+    "Je connais le bruit de chaque pas dans le couloir. Je sais qui marche pieds nus pour ne pas être entendu.",
+    "La Lumière ne punit pas ceux qui se cachent. Elle les attend."
+  ]},
+  { jour: 23, heure: "08:00", amen: 312, evenement: true, corps: [
+    "La Grande Veillée approche.",
+    "Ce sera la plus importante de toutes : celle où je dirai enfin, devant vous tous, ce que je n'ai jamais dit.",
+    "Préparez vos cœurs. Lavez vos robes. Taisez vos doutes."
+  ]},
+  { jour: 25, heure: "14:30", amen: 312, photo: "domaine", corps: [
+    "La nouvelle aile est achevée. Ceux qui ont dormi dehors tout l'hiver pour la bâtir savent ce que vaut un toit.",
+    "Ils n'oublieront pas qui le leur a donné."
+  ]},
+  { jour: 27, heure: "03:33", veille: true, amen: 312, corps: [
+    "La Lumière m'a parlé cette nuit, et pour la première fois, elle ne m'a pas parlé de vous.",
+    "Elle m'a parlé d'une seule. D'une qui ne baisse pas les yeux quand je passe.",
+    "Je n'ai pas encore décidé si c'est une grâce ou une faute."
+  ]},
+  { jour: 29, heure: "19:00", amen: 312, corps: [
+    "Le Livre des Égarés est mis à jour.",
+    "Les noms qui suivent ne seront plus prononcés au Domaine. Quiconque les prononcera rejoindra la liste.",
+    "<s>Mathis Royer</s>\n<s>Clémence Vautrin</s>\n<s>Joachim Delorme</s>\n<s>Anaïs Ferrand</s>",
+    "Ils ont choisi la nuit. Ne pleurez pas sur eux : ils ne pleurent pas sur vous."
+  ]},
+  { jour: 31, heure: "03:33", veille: true, amen: 311, corps: [
+    "Il y a parmi vous quelqu'un qui sourit trop. Quelqu'un qui dit Amen une seconde après les autres.",
+    "Je l'ai vu ce soir au réfectoire. Je le reverrai demain.",
+    "Le Troupeau ne se protège pas des loups. Il se protège de la brebis qui a cessé d'avoir peur."
+  ]},
+  { jour: 33, heure: "21:00", amen: 312, titre: "Litanie de l'obéissance", corps: [
+    "Je n'ai pas de nom que le Père ne m'ait donné.\nJe n'ai pas de faim que le Père n'ait permise.\nJe n'ai pas de route que le Père n'ait tracée.\nJe n'ai pas de faute que le Père ne connaisse.\nJe n'ai pas de cœur : le Père le garde pour moi.",
+    "À dire chaque soir, avant la confession. Celui qui hésite sur un vers le redira jusqu'à l'aube."
+  ]},
+  { jour: 35, heure: "03:33", veille: true, amen: 312, corps: [
+    "Nul ne quittera le Domaine avant la Grande Veillée. J'ai fait fermer la grille.",
+    "Ce n'est pas pour vous retenir. C'est pour que celui qui me veut du mal ne puisse pas fuir.",
+    "Car il y en a un. Peut-être plus d'un."
+  ]},
+  { jour: 37, heure: "07:15", amen: 312, corps: [
+    "À partir de ce soir et jusqu'à la Grande Veillée, le Grand Silence est imposé à tout le Domaine.",
+    "Plus un mot. Plus un regard appuyé. Plus un billet glissé sous une porte.",
+    "Ceux qui ont des choses à se dire se les diront devant moi, ou ne se les diront pas.",
+    "Je compte sur chacun pour me signaler ceux qui manqueraient au Silence. Ce n'est pas trahir son frère : c'est le sauver."
+  ]},
+  { jour: 39, heure: "03:33", veille: true, amen: 312, corps: [
+    "Et si cette nuit est la dernière que je passe parmi vous, sachez que je l'avais vue venir.",
+    "Le Nom que je devais prononcer ce soir, devant vous tous, à la Grande Veillée, je l'ai laissé là où seuls les patients le trouveront.",
+    "Que l'Aube vous garde. Qu'elle garde surtout celle dont j'ai écrit le Nom."
+  ]}
+];
+
+const PRECEPTES = [
+  "Le Père parle ; le Troupeau écoute.",
+  "Ce que tu possèdes te possède. Donne-le.",
+  "Ton nom d'avant est mort. Ne le pleure pas.",
+  "Le dehors est la nuit. Ne regarde pas la nuit.",
+  "Toute pensée cachée est déjà une faute. Confesse-la.",
+  "Ton frère qui faute, tu le dénonces par amour.",
+  "Le sommeil est un don du Père ; il peut le reprendre.",
+  "Le Silence est la plus haute des prières.",
+  "On ne quitte pas l'Aube. On s'en égare.",
+  "Le Père voit. Le Père sait. Le Père pardonne — une fois."
+];
+
+const TROUPEAU = [
+  { nom: "Sœur Marthe",     role: "Doyenne du réfectoire",          statut: "Ancienne",     cls: "ancien" },
+  { nom: "Frère Anselme",   role: "Gardien de la grille",           statut: "Ancien",       cls: "ancien" },
+  { nom: "Sœur Bénédicte",  role: "Chargée des Offrandes",          statut: "Fidèle" },
+  { nom: "Frère Élias",     role: "Cellule du Silence, 7 nuits",    statut: "En pénitence", cls: "penitence" },
+  { nom: "Sœur Agathe",     role: "Lingère",                        statut: "Fidèle" },
+  { nom: "Frère Côme",      role: "Sonneur de la chapelle",         statut: "Fidèle" },
+  { nom: "Sœur Odile",      role: "Gardienne des cierges",          statut: "Fidèle" },
+  { nom: "Frère Lucien",    role: "Jardinier de la Source",         statut: "Surveillé",    cls: "surveille" },
+  { nom: "Sœur Irène",      role: "Novice depuis douze jours",      statut: "Novice" },
+  { nom: "Frère Tobie",     role: "Scribe du Père",                 statut: "Fidèle" },
+  { nom: "Sœur Clarisse",   role: "Cuisinière",                     statut: "Purifiée" },
+  { nom: "Frère Gaspard",   role: "Veilleur de nuit",               statut: "Fidèle" },
+  { nom: "Sœur Maud",       role: "Infirmière du Domaine",          statut: "Fidèle" },
+  { nom: "Frère Ambroise",  role: "Charpentier de la nouvelle aile",statut: "Fidèle" },
+  { nom: "Sœur",            role: "Nom retiré par le Père",         statut: "Scellée",      cls: "scelle", cache: true }
+];
+
+const EGARES = ["mathis","royer","clemence","vautrin","joachim","delorme","anais","ferrand"];
+
+/* =====================================================================
+   Dessins (SVG)
+   ===================================================================== */
+function sigilInner(c){
+  c = c || "#c9a45c";
+  const rays = [-160,-135,-112,-90,-68,-45,-20].map(a => {
+    const r = a * Math.PI / 180;
+    return `<line x1="${(32+15*Math.cos(r)).toFixed(1)}" y1="${(40+15*Math.sin(r)).toFixed(1)}" x2="${(32+22*Math.cos(r)).toFixed(1)}" y2="${(40+22*Math.sin(r)).toFixed(1)}"/>`;
+  }).join("");
+  return `<circle cx="32" cy="32" r="29" fill="none" stroke="${c}" stroke-width="2.4"/>
+    <g stroke="${c}" stroke-width="2" stroke-linecap="round">${rays}</g>
+    <path d="M11 40h42" stroke="${c}" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M21 40a11 11 0 0 1 22 0z" fill="#f4efe4"/>
+    <circle cx="32" cy="35.5" r="2.8" fill="#0d0b0a"/>`;
+}
+function sigil(size, c){
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">${sigilInner(c)}</svg>`;
+}
+function guruAvatar(size){
+  return `<div class="av guru" style="width:${size}px;height:${size}px">${sigil(Math.round(size*.74))}</div>`;
+}
+
+function coverSVG(){
+  let rays = "";
+  for (let i = 1; i < 24; i++){
+    const a = Math.PI + i * Math.PI / 24;
+    rays += `<line x1="${(400+128*Math.cos(a)).toFixed(1)}" y1="${(240+128*Math.sin(a)).toFixed(1)}" x2="${(400+640*Math.cos(a)).toFixed(1)}" y2="${(240+640*Math.sin(a)).toFixed(1)}"/>`;
+  }
+  return `<svg viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="cv-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0908"/><stop offset=".5" stop-color="#2e1e10"/>
+      <stop offset=".72" stop-color="#8d6233"/><stop offset=".82" stop-color="#d9bb86"/>
+    </linearGradient>
+    <radialGradient id="cv-glow" cx=".5" cy=".8" r=".55">
+      <stop offset="0" stop-color="#fff3d6" stop-opacity=".55"/><stop offset="1" stop-color="#fff3d6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cv-sun" cx=".5" cy="1" r="1">
+      <stop offset="0" stop-color="#fffdf6"/><stop offset=".7" stop-color="#f4ecd9"/><stop offset="1" stop-color="#e2cfa6"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="300" fill="url(#cv-sky)"/>
+  <rect width="800" height="300" fill="url(#cv-glow)"/>
+  <g stroke="#f4efe4" stroke-opacity=".09" stroke-width="2">${rays}</g>
+  <path d="M290 240 a110 110 0 0 1 220 0z" fill="url(#cv-sun)"/>
+  <circle cx="400" cy="200" r="30" fill="#2a1c10" stroke="#c9a45c" stroke-width="2"/>
+  <circle cx="400" cy="200" r="11" fill="#0b0908"/>
+  <circle cx="405" cy="195" r="3" fill="#f4efe4" opacity=".7"/>
+  <path d="M0 252 Q140 226 280 240 T560 236 T800 246 V300 H0z" fill="#0b0908"/>
+  <path d="M612 240 V214 h10 v-12 l8 -16 l8 16 v12 h10 v28z" fill="#0b0908"/>
+  <circle cx="630" cy="180" r="3.2" fill="none" stroke="#c9a45c" stroke-width="1"/>
+</svg>`;
+}
+
+function candlesSVG(){
+  const H = [92,120,74,138,104,128,86,116,98];
+  let out = "";
+  H.forEach((h, i) => {
+    const x = 34 + i*42, top = 230 - h, eteint = (i === 5);
+    out += `<rect x="${x-9}" y="${top}" width="18" height="${h}" rx="2" fill="url(#cd-wax)"/>`;
+    out += `<line x1="${x}" y1="${top}" x2="${x}" y2="${top-7}" stroke="#2a2018" stroke-width="1.6"/>`;
+    if (eteint){
+      out += `<path class="smoke" d="M${x} ${top-8} c -6 -10, 8 -16, 0 -28 c -7 -10, 6 -18, 2 -30" fill="none" stroke="#c8beaf" stroke-width="1.6"/>`;
+    } else {
+      out += `<circle cx="${x}" cy="${top-14}" r="28" fill="url(#cd-glow)"/>`;
+      out += `<path class="flame" style="animation-delay:-${(i*.37).toFixed(2)}s" d="M${x} ${top-27} C ${x+6} ${top-16}, ${x+5} ${top-6}, ${x} ${top-4} C ${x-5} ${top-6}, ${x-6} ${top-16}, ${x} ${top-27}z" fill="url(#cd-flame)"/>`;
+    }
+  });
+  return `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="cd-wax" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b9ae98"/><stop offset=".45" stop-color="#f1ead9"/><stop offset="1" stop-color="#a99e88"/>
+    </linearGradient>
+    <linearGradient id="cd-flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff8e0"/><stop offset=".55" stop-color="#ffc864"/><stop offset="1" stop-color="#d9661f"/>
+    </linearGradient>
+    <radialGradient id="cd-glow"><stop offset="0" stop-color="#ffbe64" stop-opacity=".38"/><stop offset="1" stop-color="#ffbe64" stop-opacity="0"/></radialGradient>
+    <linearGradient id="cd-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070605"/><stop offset="1" stop-color="#1c140c"/></linearGradient>
+  </defs>
+  <rect width="400" height="240" fill="url(#cd-bg)"/>
+  ${out}
+  <rect y="228" width="400" height="12" fill="#140e09"/>
+</svg>`;
+}
+
+function fieldSVG(){
+  let figs = "";
+  const rows = [
+    { y:150, s:.5,  n:24, x0:18, dx:15.6, o:.7 },
+    { y:167, s:.72, n:18, x0:22, dx:21,   o:.85 },
+    { y:192, s:1,   n:13, x0:26, dx:29,   o:1 }
+  ];
+  for (const r of rows) for (let i = 0; i < r.n; i++){
+    const x = r.x0 + i*r.dx;
+    figs += `<g transform="translate(${x.toFixed(1)} ${r.y}) scale(${r.s})" opacity="${r.o}"><circle cx="0" cy="-27" r="4.4"/><path d="M-5.5 -22 Q0 -25 5.5 -22 L9 0 H-9z"/></g>`;
+  }
+  return `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="fd-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16110d"/><stop offset=".42" stop-color="#5a3c22"/>
+      <stop offset=".58" stop-color="#c79a62"/><stop offset=".62" stop-color="#ead2a2"/>
+    </linearGradient>
+    <radialGradient id="fd-glow" cx=".5" cy=".6" r=".45">
+      <stop offset="0" stop-color="#fff4dc" stop-opacity=".65"/><stop offset="1" stop-color="#fff4dc" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fd-ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2017"/><stop offset="1" stop-color="#080706"/></linearGradient>
+  </defs>
+  <rect width="400" height="240" fill="url(#fd-sky)"/>
+  <rect width="400" height="240" fill="url(#fd-glow)"/>
+  <path d="M168 146 a32 32 0 0 1 64 0z" fill="#fbf6ea"/>
+  <rect y="145" width="400" height="95" fill="url(#fd-ground)"/>
+  <g fill="#efe8d9">${figs}</g>
+</svg>`;
+}
+
+function domaineSVG(){
+  const stars = [[30,30],[80,18],[140,44],[260,22],[300,48],[372,16],[214,10],[110,72],[372,84],[58,92],[236,60]]
+    .map(([x,y], i) => `<circle cx="${x}" cy="${y}" r="${i%3 ? .9 : 1.4}" fill="#e8e0d1" opacity="${i%2 ? .5 : .85}"/>`).join("");
+  let wins = "";
+  for (let i = 0; i < 7; i++) wins += `<rect x="${246+i*17}" y="140" width="7" height="12" rx="3.5" fill="#f2c46b" opacity="${i===4 ? .2 : .9}"/>`;
+  for (let i = 0; i < 5; i++){
+    const lit = (i === 3);
+    wins += `<rect x="${52+i*19}" y="148" width="7" height="11" rx="3.5" fill="${lit ? '#f2c46b' : '#1d1813'}"${lit ? ' filter="url(#dm-glow)"' : ''}/>`;
+  }
+  return `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="dm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#07060a"/><stop offset="1" stop-color="#241a12"/></linearGradient>
+    <filter id="dm-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="400" height="240" fill="url(#dm-sky)"/>
+  ${stars}
+  <circle cx="330" cy="58" r="14" fill="#e8e0d1" opacity=".85"/>
+  <circle cx="336" cy="53" r="13" fill="#0c0a0c"/>
+  <path d="M40 190 V140 L95 118 L150 140 V190z" fill="#0f0c0a"/>
+  <path d="M232 190 V132 L302 110 L372 132 V190z" fill="#120e0b"/>
+  <path d="M150 190 V118 L191 84 L232 118 V190z" fill="#0b0908"/>
+  <rect x="183" y="40" width="16" height="62" fill="#0b0908"/>
+  <path d="M181 42 L191 24 L201 42z" fill="#0b0908"/>
+  <circle cx="191" cy="15" r="6.5" fill="none" stroke="#c9a45c" stroke-width="1.4"/>
+  <path d="M186 17 a5 5 0 0 1 10 0z" fill="#f4efe4"/>
+  <circle cx="191" cy="132" r="11" fill="#f2c46b" opacity=".75" filter="url(#dm-glow)"/>
+  <path d="M182 190 V165 a9 9 0 0 1 18 0 V190z" fill="#2a1f14"/>
+  ${wins}
+  <rect y="188" width="400" height="52" fill="#0a0807"/>
+  <path d="M0 196 Q200 186 400 198 V240 H0z" fill="#060504"/>
+</svg>`;
+}
+
+function doorSVG(){
+  return `<svg viewBox="0 0 200 240" width="170" height="204" class="door" id="door" aria-hidden="true">
+  <defs>
+    <radialGradient id="dr-light" cx=".5" cy=".55" r=".65">
+      <stop offset="0" stop-color="#fffaf0"/><stop offset=".5" stop-color="#f0d9a6"/><stop offset="1" stop-color="#8a6a32"/>
+    </radialGradient>
+    <linearGradient id="dr-wood" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#18120c"/><stop offset=".5" stop-color="#2a1f15"/><stop offset="1" stop-color="#130e09"/>
+    </linearGradient>
+  </defs>
+  <path d="M34 228 V90 A66 66 0 0 1 166 90 V228z" fill="url(#dr-light)"/>
+  <g class="leaf leaf-l">
+    <path d="M34 228 V90 A66 66 0 0 1 100 24 V228z" fill="url(#dr-wood)" stroke="#3a2c1d"/>
+    <path d="M48 214 V98 M62 214 V72 M76 214 V52" stroke="#0d0a07" stroke-width="2"/>
+    <circle cx="90" cy="150" r="3" fill="#7d6638"/>
+  </g>
+  <g class="leaf leaf-r">
+    <path d="M100 228 V24 A66 66 0 0 1 166 90 V228z" fill="url(#dr-wood)" stroke="#3a2c1d"/>
+    <path d="M124 214 V52 M138 214 V72 M152 214 V98" stroke="#0d0a07" stroke-width="2"/>
+    <circle cx="110" cy="150" r="3" fill="#7d6638"/>
+  </g>
+  <g class="door-seal" transform="translate(78 92) scale(.6875)">${sigilInner()}</g>
+  <path d="M26 230 V90 A74 74 0 0 1 174 90 V230" fill="none" stroke="#c9a45c" stroke-width="3"/>
+  <rect x="14" y="228" width="172" height="8" rx="2" fill="#2b241e"/>
+</svg>`;
+}
+
+const PHOTOS = { cierges: candlesSVG, champ: fieldSVG, domaine: domaineSVG };
+
+const ICON = {
+  bell: `<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>`,
+  candle: `<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1.7 1.9 1.7 3.6 0 4.9-1.7-1.3-1.7-3 0-4.9z"/><rect x="9" y="10" width="6" height="11.5" rx="1"/></svg>`,
+  bubble: `<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 5h16v11H9.5L5 20v-4H4z"/></svg>`,
+  share: `<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5l6 6-6 6"/><path d="M20 11H10a6 6 0 0 0-6 6v2"/></svg>`,
+  lock: `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`,
+  unlock: `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 7.6-1.8"/></svg>`,
+  dots: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>`,
+  pin: `<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M14.5 2.5l7 7-2.6.9-4.2 4.2.4 4.6-1.6 1.6-4.2-4.2-5.4 5.4-1.4-1.4 5.4-5.4-4.2-4.2 1.6-1.6 4.6.4 4.2-4.2z"/></svg>`,
+  flock: `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M15 14.2c3 0 5.5 1.8 5.5 4.8"/></svg>`,
+  ghost: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg>`
+};
+
+/* =====================================================================
+   Rendu
+   ===================================================================== */
+const TOTAL = CONFIG.nbEnfants;
+const badge = `<span title="Guide de l'Aube" style="display:inline-flex">${sigil(17)}</span>`;
+const br = s => s.replace(/\n/g, "<br>");
+
+function dissentText(manque){
+  if (manque <= 0) return "";
+  return manque === 1
+    ? "1 Enfant n'a pas dit Amen. Le Père sait qui."
+    : `${manque} Enfants n'ont pas dit Amen. Le Père sait lesquels.`;
+}
+
+function eventHTML(){
+  return `<div class="event">
+      <div class="event-date"><span>39</span><small>Cendres</small></div>
+      <div>
+        <div class="event-title">La Grande Veillée</div>
+        <div class="event-meta">Nuit du Jour 39 au Jour 40 · Chapelle du Domaine</div>
+        <div class="event-meta">Présence obligatoire · ${TOTAL} Enfants convoqués</div>
+      </div>
+    </div>
+    <div class="event-row"><button class="btn" data-toast="Votre présence est déjà inscrite. Elle l'a toujours été.">✓ Présent</button></div>`;
+}
+
+function renderPost(p, epingle){
+  const corps = p.corps.map((t, i) => `<p${i === 0 ? ' class="first"' : ''}>${br(t)}</p>`).join("");
+  return `<article class="card post${p.veille ? ' veille' : ''}">
+    ${epingle ? `<div class="pinned-label">${ICON.pin} Publication épinglée</div>` : ''}
+    <header class="post-head">
+      ${guruAvatar(42)}
+      <div class="who">
+        <div class="author">${CONFIG.gourou} ${badge}</div>
+        <div class="meta">Jour ${p.jour} des Cendres · ${p.heure} · ${ICON.flock}</div>
+      </div>
+      <button class="dots" aria-label="Options" data-toast="Nul ne modifie la Parole du Père.">${ICON.dots}</button>
+    </header>
+    ${p.veille ? `<div class="veille-wrap"><span class="veille-tag">✦ Parole de Veille</span></div>` : ''}
+    ${p.titre ? `<div class="post-title">${p.titre}</div>` : ''}
+    <div class="post-body">${corps}</div>
+    <button class="more" hidden>Voir plus</button>
+    ${p.photo ? `<figure class="photo">${PHOTOS[p.photo]()}</figure>` : ''}
+    ${p.evenement ? eventHTML() : ''}
+    <div class="stats">
+      <span class="amen-count"><span class="amen-dot"></span><span class="amen-n" data-n="${p.amen}">${p.amen} Amen</span></span>
+      <span>Commentaires scellés</span>
+    </div>
+    ${p.amen < TOTAL ? `<div class="dissent">${dissentText(TOTAL - p.amen)}</div>` : ''}
+    <div class="actions">
+      <button class="amen-btn">${ICON.candle} Amen</button>
+      <button data-toast="Les commentaires sont scellés. Seul le Père a la Parole.">${ICON.bubble} Commenter</button>
+      <button data-toast="Ce qui est donné au Troupeau ne sort pas du Troupeau.">${ICON.share} Partager</button>
+    </div>
+  </article>`;
+}
+
+function initiale(nom){ return nom.split(" ").slice(1).join(" ").charAt(0); }
+const TEINTES = ["#3b2f25","#2f3330","#3a2a2a","#2d2a35","#33301f","#2a3236","#35292f"];
+
+function renderMember(m, i){
+  if (m.cache){
+    return `<div class="card member" data-toast="Ce nom a été retiré par le Père. Il n'est plus à vous.">
+      <div class="av sealed" style="width:58px;height:58px"></div>
+      <div class="m-name">${m.nom} <span class="redact">${'<i></i>'.repeat(CONFIG.nomCache.length)}</span></div>
+      <div class="m-role">${m.role}</div>
+      <span class="chip ${m.cls}">${m.statut}</span>
+    </div>`;
+  }
+  return `<div class="card member" data-toast="Le profil des Enfants n'est visible que du Père.">
+    <div class="av member" style="width:58px;height:58px;background:${TEINTES[i % TEINTES.length]};font-size:22px">${initiale(m.nom)}</div>
+    <div class="m-name">${m.nom}</div>
+    <div class="m-role">${m.role}</div>
+    <span class="chip ${m.cls || ''}">${m.statut}</span>
+  </div>`;
+}
+
+const tickerText = "LE PÈRE VOIT ✦ LE PÈRE SAIT ✦ LE PÈRE PARDONNE ✦ ";
+const ROMAINS = ["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
+
+document.getElementById("app").innerHTML = `
+<header class="topbar">
+  <a class="brand" href="#parole" data-tab-link="parole">${sigil(28)}<span class="wordmark">Aube Blanche</span></a>
+  <span class="spacer"></span>
+  <button class="iconbtn" aria-label="Notifications" data-toast="Vous n'avez aucune notification. Le Père, lui, en a reçu une à votre sujet.">${ICON.bell}<span class="badge">1</span></button>
+</header>
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>${tickerText.repeat(4)}</span><span>${tickerText.repeat(4)}</span></div></div>
+
+<main class="page">
+  <section class="profile">
+    <div class="cover">${coverSVG()}</div>
+    <div class="profile-main">
+      <div class="profile-avatar">${guruAvatar(120)}</div>
+      ${CONFIG.gourouMort ? `<div class="memorial">En souvenir de</div>` : `<div style="height:10px"></div>`}
+      <h1>${CONFIG.gourou} ${sigil(22)}</h1>
+      <div class="sub">Guide et Fondateur · ${CONFIG.secte}</div>
+      <div class="counts"><b>${TOTAL}</b> Enfants · Suit <b>personne</b></div>
+      <div class="profile-actions">
+        <button class="btn primary" data-toast="Vous suivez le Père. Vous l'avez toujours suivi.">✓ Vous suivez le Père</button>
+        <button class="btn" data-toast="On n'écrit pas au Père. On attend qu'il écrive.">Écrire</button>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" data-tab="parole">La Parole</button>
+      <button class="tab" data-tab="preceptes">Préceptes</button>
+      <button class="tab" data-tab="troupeau">Troupeau</button>
+      <button class="tab" data-tab="sanctuaire"><span id="lock-ico">${ICON.lock}</span>Sanctuaire</button>
+    </nav>
+  </section>
+
+  <!-- LA PAROLE -->
+  <section class="view" id="view-parole">
+    ${CONFIG.gourouMort ? `<div class="deces">${sigil(34)}<div><p>${CONFIG.bandeauDeces}</p><p class="deces-sign">${CONFIG.signatureDeces}</p></div></div>` : ''}
+    <section class="card intro">
+      <h2>À propos</h2>
+      <p class="motto">« Le Père voit. Le Père sait. Le Père pardonne. »</p>
+      <ul>
+        <li><span class="ic">☉</span>Guide et Fondateur de ${CONFIG.secte}</li>
+        <li><span class="ic">⌂</span>Vit au ${CONFIG.lieu}</li>
+        <li><span class="ic">✦</span>A reçu la Lumière en l'An I de l'Aube</li>
+        <li><span class="ic">⊘</span>Commentaires scellés : seul le Père a la Parole</li>
+      </ul>
+    </section>
+    <section class="card composer" data-toast="Seul le Père a la Parole.">
+      <div class="av ghost" style="width:40px;height:40px">${ICON.ghost}</div>
+      <div class="fake-input">Seul le Père a la Parole.</div>
+    </section>
+    ${renderPost(EPINGLE, true)}
+    ${POSTS.slice().reverse().map(p => renderPost(p, false)).join("")}
+  </section>
+
+  <!-- PRÉCEPTES -->
+  <section class="view" id="view-preceptes" hidden>
+    <section class="card preceptes">
+      <div class="seal">${sigil(56)}</div>
+      <h2>Les Préceptes de l'Aube</h2>
+      <p class="lead">Reçus par le Père, en l'An I de l'Aube, à la Source.</p>
+      <ol>${PRECEPTES.map((t, i) => `<li><span class="num">${ROMAINS[i]}.</span><span>${t}</span></li>`).join("")}</ol>
+      <p class="foot">Affichés au réfectoire, à la chapelle et au-dessus de chaque lit.</p>
+    </section>
+  </section>
+
+  <!-- TROUPEAU -->
+  <section class="view" id="view-troupeau" hidden>
+    <section class="card troupeau-head">
+      <h2>Le Troupeau</h2>
+      <p>${TOTAL} Enfants · 4 Égarés cette saison</p>
+    </section>
+    <div class="grid">${TROUPEAU.map(renderMember).join("")}</div>
+    <p class="others">… et ${TOTAL - TROUPEAU.length} autres Enfants, que le Père connaît tous par leur nom.</p>
+  </section>
+
+  <!-- SANCTUAIRE -->
+  <section class="view" id="view-sanctuaire" hidden>
+    <section class="card sanctuaire">
+      <div class="door-wrap">${doorSVG()}</div>
+      <h2>Le Sanctuaire</h2>
+      <p class="lead">Derrière cette porte, le Père gardait ce qu'il n'a jamais dit au Troupeau. Elle ne s'ouvre qu'à qui prononce le Nom.</p>
+      <form class="nom-form" id="nom-form" autocomplete="off">
+        <input id="nom-input" type="text" placeholder="Prononce le Nom…" autocapitalize="characters" autocorrect="off" spellcheck="false" aria-label="Le Nom">
+        <button class="btn primary" type="submit">Prononcer</button>
+      </form>
+      <p class="verdict" id="verdict" aria-live="polite"></p>
+      <p class="whisper" id="whisper"></p>
+      <p class="tries" id="tries"></p>
+    </section>
+    <section class="card reveal" id="reveal" hidden></section>
+  </section>
+</main>
+
+<footer class="foot-note">
+  <b>${CONFIG.secte.toUpperCase()}</b>
+  Ce que vous lisez ici vous a été donné. Ne le portez pas au-dehors.
+</footer>`;
+
+/* =====================================================================
+   Interactions
+   ===================================================================== */
+const toastEl = document.getElementById("toast");
+let toastTimer;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2900);
+}
+
+/* « Voir plus » sur les longues publications */
+function setupMore(){
+  document.querySelectorAll("#view-parole .post-body").forEach(b => {
+    if (b.offsetParent === null || b.dataset.open === "1") return;
+    const btn = b.nextElementSibling;
+    b.classList.add("clamped");
+    const deborde = b.scrollHeight > b.clientHeight + 8;
+    if (!deborde) b.classList.remove("clamped");
+    btn.hidden = !deborde;
+  });
+}
+
+/* Onglets */
+const VUES = ["parole", "preceptes", "troupeau", "sanctuaire"];
+function montrer(id, scroll){
+  if (!VUES.includes(id)) id = "parole";
+  VUES.forEach(v => document.getElementById("view-" + v).hidden = (v !== id));
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === id));
+  if (id === "parole") setupMore();
+  if (history.replaceState) history.replaceState(null, "", "#" + id);
+  if (scroll){
+    const tabs = document.querySelector(".tabs");
+    const y = tabs.getBoundingClientRect().top + window.scrollY - document.querySelector(".topbar").offsetHeight;
+    if (window.scrollY > y) window.scrollTo({ top: y });
+  }
+}
+
+document.addEventListener("click", e => {
+  const tab = e.target.closest("[data-tab]");
+  if (tab){ montrer(tab.dataset.tab, true); return; }
+  const lien = e.target.closest("[data-tab-link]");
+  if (lien){ e.preventDefault(); montrer(lien.dataset.tabLink, true); window.scrollTo({ top: 0 }); return; }
+
+  const more = e.target.closest(".more");
+  if (more){
+    const body = more.previousElementSibling;
+    const ouvert = body.classList.toggle("clamped") === false;
+    body.dataset.open = ouvert ? "1" : "";
+    more.textContent = ouvert ? "Voir moins" : "Voir plus";
+    return;
+  }
+
+  const amen = e.target.closest(".amen-btn");
+  if (amen){
+    if (amen.classList.contains("on")){ toast("Un Amen ne se reprend pas."); return; }
+    amen.classList.add("on");
+    const post = amen.closest(".post");
+    const nEl = post.querySelector(".amen-n");
+    let n = Math.min(+nEl.dataset.n + 1, TOTAL);
+    nEl.dataset.n = n;
+    nEl.textContent = n + " Amen";
+    const d = post.querySelector(".dissent");
+    if (d) d.textContent = n >= TOTAL ? "Le Troupeau entier a dit Amen." : dissentText(TOTAL - n);
+    toast("Amen. Le Père l'a noté.");
+    return;
+  }
+
+  const t = e.target.closest("[data-toast]");
+  if (t) toast(t.dataset.toast);
+});
+
+/* Sanctuaire */
+const norm = s => s.toLowerCase().replace(/œ/g, "oe").replace(/æ/g, "ae")
+  .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "");
+const CIBLE = norm(CONFIG.nomCache);
+const ENVERS = [...CIBLE].reverse().join("");
+const MEMBRES = TROUPEAU.filter(m => !m.cache).map(m => norm(m.nom.split(" ").slice(1).join(" ")));
+const GENERIQUES = [
+  "Le Sanctuaire reste clos.",
+  "Ce n'est pas le Nom. Le Père a entendu.",
+  "Le silence te répond.",
+  "Tu cherches avec ta bouche. Cherche avec tes yeux.",
+  "La porte ne connaît pas ce nom."
+];
+let essais = 0, ouvert = false;
+
+function ouvrir(){
+  ouvert = true;
+  document.getElementById("door").classList.add("open");
+  document.getElementById("nom-form").hidden = true;
+  document.getElementById("whisper").hidden = true;
+  document.getElementById("tries").hidden = true;
+  const v = document.getElementById("verdict");
+  v.style.color = "var(--gold)";
+  v.textContent = "Le Nom est prononcé. La porte s'ouvre.";
+  document.getElementById("lock-ico").innerHTML = ICON.unlock;
+  const lettres = [...CONFIG.nomCache.toUpperCase()]
+    .map((c, i) => `<span style="animation-delay:${(1.6 + i*.32).toFixed(2)}s">${c}</span>`).join("");
+  const fin = 1.6 + CONFIG.nomCache.length * .32 + .4;
+  const r = document.getElementById("reveal");
+  r.innerHTML = `<div class="reveal-kicker">Le Nom</div>
+    <div class="reveal-name">${lettres}</div>
+    ${CONFIG.texteRevelation ? `<p class="reveal-text" style="animation-delay:${fin.toFixed(1)}s">${CONFIG.texteRevelation}</p>` : ''}
+    <p class="reveal-sign" style="animation-delay:${(fin + .8).toFixed(1)}s">— ${CONFIG.gourou}</p>`;
+  r.hidden = false;
+  setTimeout(() => r.scrollIntoView({ behavior: "smooth", block: "center" }), 1300);
+}
+
+document.getElementById("nom-form").addEventListener("submit", e => {
+  e.preventDefault();
+  if (ouvert) return;
+  const input = document.getElementById("nom-input");
+  const v = norm(input.value);
+  if (!v) return;
+  if (v.includes(CIBLE)){ input.blur(); ouvrir(); return; }
+
+  essais++;
+  let msg;
+  if (v.includes(ENVERS)) msg = "Tu lis à rebours, Enfant. Recommence par le commencement.";
+  else if (v.includes("absalon")) msg = "On ne prononce pas le nom du Père en vain.";
+  else if (MEMBRES.some(m => v.includes(m))) msg = "Ce nom appartient au Troupeau. Ce n'est pas le Nom.";
+  else if (EGARES.some(m => v.includes(m))) msg = "Ce nom a été effacé. En le prononçant, tu viens de rejoindre la liste.";
+  else if (v.length >= 3 && CIBLE.startsWith(v)) msg = "Le Nom commence ainsi. Mais il n'est pas entier.";
+  else if (v.length >= 3 && CIBLE.includes(v)) msg = "Tu tiens un fragment du Nom. Il t'en manque le commencement.";
+  else msg = GENERIQUES[(essais - 1) % GENERIQUES.length];
+
+  const verdict = document.getElementById("verdict");
+  verdict.textContent = msg;
+  verdict.classList.remove("shake"); void verdict.offsetWidth; verdict.classList.add("shake");
+  document.getElementById("tries").textContent = `Tentatives entendues par le Père : ${essais}`;
+
+  const w = document.getElementById("whisper");
+  if (essais >= 7){
+    w.textContent = "Un murmure, plus distinct : « Trois heures trente-trois. Huit fois. Depuis la première. »";
+    w.classList.add("show");
+  } else if (essais >= 4){
+    w.textContent = "Un murmure, derrière la porte : « J'écrivais quand vous dormiez. »";
+    w.classList.add("show");
+  }
+  input.select();
+});
+
+/* Démarrage */
+montrer((location.hash || "#parole").slice(1), false);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(setupMore);
+window.addEventListener("load", setupMore);
+</script>
+</body>
+</html>
